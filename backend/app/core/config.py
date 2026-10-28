@@ -19,6 +19,8 @@ class Settings:
     INVERTED_INDEX_COLLECTION: str = "inverted_index"
     TEMP_INDEX_COLLECTION: str = "inverted_index_temp"
     METADATA_COLLECTION: str = "index_metadata"
+    USERS_COLLECTION: str = "users"
+    APP_LOCKS_COLLECTION: str = "app_locks"
     
     # Chunking: max postings per MongoDB document to guarantee <16MB
     POSTINGS_CHUNK_SIZE: int = 5000
@@ -33,5 +35,11 @@ class Settings:
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
+
+    # JWT & Authentication
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "patentfind-insecure-dev-secret-key-change-in-production-123456")
+    JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+    ADMIN_SETUP_LOCK_TIMEOUT_SECONDS: int = int(os.getenv("ADMIN_SETUP_LOCK_TIMEOUT_SECONDS", "300"))
 
 settings = Settings()

@@ -3,7 +3,7 @@ import React from "react";
 export default function PatentCard({ patent, index }) {
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs hover:border-slate-300 transition-all">
-      <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
+      <div className="flex flex-wrap items-start justify-between gap-3 mb-2.5">
         <div className="flex flex-wrap items-center gap-2">
           {patent.publication_number && (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-slate-900 text-white font-mono">
@@ -16,7 +16,7 @@ export default function PatentCard({ patent, index }) {
             </span>
           )}
           {patent.field_of_invention && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200">
               {patent.field_of_invention}
             </span>
           )}
@@ -64,7 +64,7 @@ export default function PatentCard({ patent, index }) {
       </div>
 
       {(patent.no_of_claims !== null || patent.no_of_pages !== null) && (
-        <div className="flex items-center gap-4 mt-2 pt-2 border-t border-slate-50 text-[11px] text-slate-400">
+        <div className="flex items-center gap-4 mt-2.5 pt-2 border-t border-slate-50 text-[11px] text-slate-400">
           {patent.no_of_claims !== null && patent.no_of_claims !== undefined && (
             <span>Claims: <strong className="text-slate-600 font-medium">{patent.no_of_claims}</strong></span>
           )}

@@ -1,5 +1,6 @@
 import logging
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from app.api.deps import require_admin
 from app.indexing.indexer import build_inverted_index, get_index_status
 from app.schemas.index import IndexBuildResponse, IndexStatusResponse
 
@@ -28,9 +29,10 @@ def get_status() -> IndexStatusResponse:
     "/build",
     response_model=IndexBuildResponse,
     status_code=status.HTTP_200_OK,
-    summary="Build or rebuild the persistent inverted index"
+    summary="Build or rebuild the persistent inverted index",
+    dependencies=[Depends(require_admin)]
 )
-def build_index() -> IndexBuildResponse:
+def build_index(current_admin: dict = Depends(require_admin)) -> IndexBuildResponse:
     """
     Triggers construction or rebuilding of the persistent inverted index
     across all patent collections (2016-2023).

@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.api import api_router
 from app.core.config import settings
 from app.db.mongodb import check_mongodb
+from app.db.user_db import init_user_indexes
 
 logging.basicConfig(
     level=logging.INFO,
@@ -30,6 +31,16 @@ app.add_middleware(
 
 # Include API routes under /api
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.on_event("startup")
+def startup_event():
+    """Ensure essential database indexes exist upon application startup."""
+    try:
+        init_user_indexes()
+        logger.info("Successfully verified and initialized MongoDB user indexes.")
+    except Exception as exc:
+        logger.error("Error initializing user indexes on startup: %s", exc)
 
 
 @app.get("/", summary="Root endpoint")

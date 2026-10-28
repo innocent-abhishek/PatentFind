@@ -23,7 +23,7 @@ export default function SearchBar({
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs mb-8">
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2.5">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <svg
@@ -47,7 +47,7 @@ export default function SearchBar({
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search patent title or field of invention (e.g. solar cell, pharmaceutical container, wireless)"
               disabled={isSearching}
-              className="w-full pl-10 pr-10 py-3 text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all disabled:opacity-60"
+              className="w-full pl-10 pr-10 py-3 text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all disabled:opacity-60"
             />
 
             {query && (
@@ -55,7 +55,7 @@ export default function SearchBar({
                 type="button"
                 onClick={handleClear}
                 className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
-                title="Clear input"
+                title="Clear query"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -94,33 +94,28 @@ export default function SearchBar({
                 Searching...
               </>
             ) : (
-              "Search"
+              "Search Patents"
             )}
           </button>
         </div>
       </form>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500">
-        <div className="flex items-center gap-1.5">
-          <span className="font-medium text-slate-700">AND Semantics:</span>
-          <span>Multiword queries match patents containing <em>all</em> query terms.</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-slate-400">Try sample queries:</span>
-          {["solar", "pharmaceutical", "solar panel", "electric vehicle"].map((sample) => (
-            <button
-              key={sample}
-              type="button"
-              onClick={() => {
-                setQuery(sample);
-                onSearch(sample);
-              }}
-              className="text-indigo-600 hover:text-indigo-800 hover:underline bg-indigo-50 px-2 py-0.5 rounded cursor-pointer"
-            >
-              {sample}
-            </button>
-          ))}
-        </div>
+      {/* Suggested Search Keywords */}
+      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex-wrap">
+        <span className="font-medium text-slate-400">Popular keywords:</span>
+        {["solar", "pharmaceutical", "wireless", "battery", "tracking", "5G"].map((kw) => (
+          <button
+            key={kw}
+            type="button"
+            onClick={() => {
+              setQuery(kw);
+              onSearch(kw);
+            }}
+            className="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+          >
+            {kw}
+          </button>
+        ))}
       </div>
     </div>
   );
