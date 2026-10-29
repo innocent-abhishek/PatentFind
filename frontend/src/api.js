@@ -102,3 +102,47 @@ export async function searchPatents(query, page = 1, pageSize = 10) {
   const res = await fetch(`${API_BASE}/search?${params.toString()}`);
   return handleResponse(res);
 }
+
+/**
+ * Upload a CSV file containing multiple patent records (admin-only)
+ */
+export async function uploadPatentCsv(file, token) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const headers = {};
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(`${API_BASE}/admin/patents/upload-csv`, {
+    method: "POST",
+    headers,
+    body: formData,
+  });
+  return handleResponse(res);
+}
+
+/**
+ * List patents with pagination and filters (admin-only)
+ */
+export async function fetchAdminPatents({ page = 1, pageSize = 10, q = "", ipoLocation = "", field = "", year = "" } = {}, token) {
+  const params = new URLSearchParams();
+  params.set("page", String(page));
+  params.set("page_size", String(pageSize));
+  if (q) params.set("q", q);
+  if (ipoLocation) params.set("ipo_location", ipoLocation);
+  if (field) params.set("field_of_invention", field);
+  if (year) params.set("year", String(year));
+
+  const headers = {};
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(`${API_BASE}/admin/patents?${params.toString()}`, {
+    method: "GET",
+    headers,
+  });
+  return handleResponse(res);
+}

@@ -8,10 +8,11 @@ import IndexStatusCard from "./components/IndexStatusCard";
 import SearchBar from "./components/SearchBar";
 import PatentCard from "./components/PatentCard";
 import Pagination from "./components/Pagination";
+import CsvUploadSection from "./components/CsvUploadSection";
 
 function MainContent() {
   const { token, isAdmin } = useAuth();
-  const [currentView, setCurrentView] = useState("dashboard"); // 'dashboard' | 'login' | 'register'
+  const [currentView, setCurrentView] = useState("dashboard"); // 'dashboard' | 'admin-import' | 'login' | 'register'
 
   // Index Status State
   const [statusData, setStatusData] = useState(null);
@@ -134,6 +135,38 @@ function MainContent() {
           <RegisterPage onNavigate={(view) => setCurrentView(view)} />
         )}
 
+        {currentView === "admin-import" && (
+          <main className="max-w-5xl mx-auto px-4 py-8 sm:px-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Administrator Data Management</h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Import patent records and synchronize persistent search postings.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCurrentView("dashboard")}
+                className="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-medium cursor-pointer"
+              >
+                &larr; Back to Search Dashboard
+              </button>
+            </div>
+
+            {isAdmin ? (
+              <CsvUploadSection
+                token={token}
+                onUploadSuccess={loadStatus}
+              />
+            ) : (
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center text-xs text-amber-800">
+                <p className="font-semibold text-sm mb-1">Access Restricted</p>
+                <p>You must be signed in as an administrator to access patent data management.</p>
+              </div>
+            )}
+          </main>
+        )}
+
         {currentView === "dashboard" && (
           <main className="max-w-5xl mx-auto px-4 py-8 sm:px-6">
             {/* Index Status Card (All users see stats, admin sees rebuild control) */}
@@ -145,6 +178,14 @@ function MainContent() {
               onBuild={handleBuildIndex}
               onRefresh={loadStatus}
             />
+
+            {/* CSV Import Section for Admin on Dashboard */}
+            {isAdmin && (
+              <CsvUploadSection
+                token={token}
+                onUploadSuccess={loadStatus}
+              />
+            )}
 
             {/* Keyword Search Bar */}
             <SearchBar

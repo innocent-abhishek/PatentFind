@@ -45,6 +45,21 @@ export default function NavigationHeader({ currentView, onViewChange }) {
             Search Dashboard
           </button>
 
+          {/* Admin CSV Import Tab (Admin Only) */}
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={() => onViewChange("admin-import")}
+              className={`px-3 py-1.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                currentView === "admin-import"
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
+            >
+              CSV Import
+            </button>
+          )}
+
           <div className="h-4 w-px bg-slate-200 hidden sm:block"></div>
 
           {isAuthenticated ? (

@@ -41,5 +41,9 @@ class Settings:
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
     ADMIN_SETUP_LOCK_TIMEOUT_SECONDS: int = int(os.getenv("ADMIN_SETUP_LOCK_TIMEOUT_SECONDS", "300"))
+    
+    # CSV Upload Constraints
+    MAX_CSV_UPLOAD_BYTES: int = int(os.getenv("MAX_CSV_UPLOAD_BYTES", str(15 * 1024 * 1024)))  # 15 MB
+    MAX_CSV_ROWS: int = int(os.getenv("MAX_CSV_ROWS", "10000"))  # 10,000 rows
 
 settings = Settings()
